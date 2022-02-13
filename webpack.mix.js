@@ -11,6 +11,13 @@ const mix = require('laravel-mix');
  |
  */
 
+ mix.options({
+    hmrOptions: {
+        host: 'localhost',  // mysite.test is my local domain used for testing
+        port: 8080,
+    }
+ });
+
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .browserSync('127.0.0.1:8000')

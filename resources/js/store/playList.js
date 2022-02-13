@@ -7,8 +7,15 @@ export const playlist = {
     }),
 
     actions: {
-        nextSong( { commit, state } ){
-            let nextIndex = state.activeIndex + 1;
+        nextSong( { commit, state }, index ){
+            alert('clicked');
+            let nextIndex = null;
+
+            if( index ){
+                nextIndex = index;
+            }else{
+                nextIndex = state.activeIndex + 1;
+            }
 
             commit( 'setActiveIndex', nextIndex );
             commit( 'setActiveSong', state.songs[ nextIndex ] );
@@ -16,11 +23,11 @@ export const playlist = {
     },
 
     mutations: {
-        setActiveIndex( index ){
+        setActiveIndex( state,index ){
             state.activeIndex = index;
         },
 
-        setActiveSong( song ){
+        setActiveSong( state,song ){
             state.activeSong = song;
         }
     },

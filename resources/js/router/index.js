@@ -1,23 +1,46 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import Home from '../components/home';
-import Test from '../components/Test';
-
+import AuthenticationMiddleware from './middleware/authentication';
+import NotFound from '../pages/NotFound';
+import Home from '../pages/home.vue';
+import Login from '../pages/Login.vue'
+import User from '../pages/User.vue'
 
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: Home
+        name: "Home",
+        component:Home,
+        meta: {
+            authenticated: false,
+        },
     },
     {
-        path: '/test',
-        name: 'eg',
-        component: Test
+        path: '/login',
+        name: "Login",
+        component:Login,
+        meta: {
+            authenticated: false,
+        },
     },
-]
+    {
+        path: '/profile',
+        name: "profile",
+        component:User,
+        meta: {
+            authenticated: true,
+        },
+    },
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 
-export default createRouter({
+
+];
+
+const router = createRouter({
     history: createWebHistory(),
     routes
 });
+
+router.beforeEach(AuthenticationMiddleware);
+
+export default router;

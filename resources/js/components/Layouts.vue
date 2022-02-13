@@ -12,7 +12,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item text-primary">
                             <router-link to="/" class="nav-link">Go to Home</router-link>
                     </li>
                     <li class="nav-item">
@@ -25,15 +25,42 @@
             </div>
         </div>
     </nav>
-
-        <router-view></router-view>
-
+    <router-view></router-view>
 </div>
 </template>
 <script>
+import { reactive } from 'vue'
+import { useMouse, usePreferredDark, useLocalStorage, useOnline, useBrowserLocation } from '@vueuse/core'
+import { UseOnline, UseBrowserLocation } from '@vueuse/components';
+import { useGeolocation } from '@vueuse/core';
+
 export default {
-    setup: () => ({
-        greeting: 'Hello World from Vue 3!'
-    })
+    components:[UseOnline, UseBrowserLocation],
+
+
+    setup() {
+        // tracks mouse position
+        const { x, y } = useMouse()
+
+        // is user prefers dark theme
+        const isDark = usePreferredDark()
+        const online = useOnline()
+        const location = useBrowserLocation()
+        const { coords, locatedAt, error } = useGeolocation()
+
+
+
+
+        // persist state in localStorage
+        const store = useLocalStorage(
+            'my-storage',
+            {
+                name: 'Apple',
+                color: 'red',
+            },
+        )
+
+        return { x, y, isDark, store ,online, location, coords,locatedAt, error}
+    }
 }
 </script>
